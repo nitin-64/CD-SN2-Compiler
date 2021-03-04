@@ -68,3 +68,79 @@ uint32_t hash_function ( char* lexeme )
 }
 
 
+/* function to create a new entry given lexeme and token_name */
+
+entry_ht* create_entry ( char* lexeme, int token_name )
+{
+    entry_ht* new_entry;
+
+    new_entry = malloc(sizeof(entry_ht*)); // allocating memory for the new entry
+
+    new_entry -> lexeme = strdup (lexeme); // assiging the string-duplicate of lexeme to lexeme of new entry
+
+    new_entry -> token_name = token_name;
+    new_entry -> next = NULL;
+
+    return new_entry;
+}
+
+
+/* function to serach for a given lexeme in the hash_table. return pointer to lexeme if exists or return NULL */
+
+entry_ht* search (entry_ht** hash_table_ptr, char* lexeme)
+{
+    uint32_t idx = 0;
+    entry_ht* my_entry;
+
+    idx = hash_function(lexeme); // getting the index of lexeme in the hash_table
+
+    /* traversing the linked list chain */
+
+    my_entry = hash_table_ptr[idx];
+
+    while (my_entry != NULL && strcmp( lexeme, my_entry -> lexeme))
+    {
+        my_entry = my_entry -> next;
+    }
+
+    if (my_entry == NULL)
+    {
+        return NULL; // lexeme is not found
+    }
+
+    return my_entry; // returning pointer to lexeme
+    
+}
+
+
+/* function to insert a new entry into the hash_table given lexeme, token_name */
+
+void insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
+{
+    if (search(hash_table_ptr, lexeme) != NULL)
+    {
+        return; // return if lexeme already exists
+    }
+
+    uint32_t idx;
+    entry_ht* new_entry;
+    entry_ht* head;
+
+    idx = hash ( lexeme ); // get the index of the lexeme based on the hash function
+    new_entry = create_entry (lexeme, token_name); // creating a new entry
+
+    head = hash_table_ptr[idx]; // get the head entry at this index (first link in the linked list chain)
+
+    if (head == NULL)
+    {
+        hash_table_ptr[idx] = new_entry; // this is the first lexeme that has given hash index
+    }
+    else
+    {
+        new_entry -> next = hash_table_ptr[idx]; 
+        hash_table_ptr[idx] = new_entry; // making the new entry head
+    }
+
+}
+
+

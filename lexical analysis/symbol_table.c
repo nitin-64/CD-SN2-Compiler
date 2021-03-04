@@ -143,4 +143,26 @@ void insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
 
 }
 
+// Traverse the hash table and print all the entries
+void display_table(entry_ht** hash_table_ptr)
+{
+	int i;
+	entry_ht* current;
 
+    printf("\n-------------------------------------------\n");
+    printf("\t < lexeme , token >\n");
+    printf("---------------------------------------------\n");
+
+	for( i=0; i < HASH_TABLE_SIZE; i++)
+	{
+		current = hash_table_ptr[i];
+
+		while( current != NULL)
+		{
+			printf("< %s, %d >\n", current -> lexeme, current -> token_name);
+			current = current -> next;
+		}
+	}
+    printf("------------------------------------------------\n");
+   
+}

@@ -25,7 +25,7 @@ entry_ht** create_new_hash_table()
 
     entry_ht** hash_table_pointer = NULL; // declaration of pointer
 
-    hash_table_pointer = malloc(sizeof(entry_ht*) * HASH_TABLE_SIZE);  // allocate memory to hash table array of size HASH_TABLE_SIZE
+    hash_table_pointer = (entry_ht**)malloc( HASH_TABLE_SIZE * sizeof(entry_ht*) );  // allocate memory to hash table array of size HASH_TABLE_SIZE
 
     // initalizing all the pointers in the array as null
 
@@ -45,7 +45,7 @@ entry_ht** create_new_hash_table()
 
 uint32_t hash_function ( char* lexeme )
 {
-    size_t i;
+    size_t i = 0;
     uint32_t hash = 0;
 
     /* 
@@ -74,7 +74,7 @@ entry_ht* create_entry ( char* lexeme, int token_name )
 {
     entry_ht* new_entry;
 
-    new_entry = malloc(sizeof(entry_ht*)); // allocating memory for the new entry
+    new_entry = (entry_ht*)malloc(sizeof(entry_ht*)); // allocating memory for the new entry
 
     new_entry -> lexeme = strdup (lexeme); // assiging the string-duplicate of lexeme to lexeme of new entry
 
@@ -91,6 +91,7 @@ entry_ht* search (entry_ht** hash_table_ptr, char* lexeme)
 {
     uint32_t idx = 0;
     entry_ht* my_entry;
+    
 
     idx = hash_function(lexeme); // getting the index of lexeme in the hash_table
 
@@ -98,11 +99,12 @@ entry_ht* search (entry_ht** hash_table_ptr, char* lexeme)
 
     my_entry = hash_table_ptr[idx];
 
-    while (my_entry != NULL && strcmp( lexeme, my_entry -> lexeme))
+
+    while (my_entry != NULL && strcmp( lexeme, my_entry -> lexeme) != 0)
     {
         my_entry = my_entry -> next;
     }
-
+    
     if (my_entry == NULL)
     {
         return NULL; // lexeme is not found
@@ -126,7 +128,7 @@ void insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
     entry_ht* new_entry;
     entry_ht* head;
 
-    idx = hash ( lexeme ); // get the index of the lexeme based on the hash function
+    idx = hash_function ( lexeme ); // get the index of the lexeme based on the hash function
     new_entry = create_entry (lexeme, token_name); // creating a new entry
 
     head = hash_table_ptr[idx]; // get the head entry at this index (first link in the linked list chain)
@@ -168,4 +170,28 @@ void display_table(entry_ht** hash_table_ptr)
    
 }
 
+
+int main(int argc, char *argv[])
+{
+    entry_ht** table = create_new_hash_table();
+
+    insert(table, "surya", 35);
+    insert(table, "nitin", 12);
+    insert(table, "nag", 18);
+
+    char new_lexeme[30];
+
+    printf("enter your lexeme: \n");
+
+    scanf("%[^\n]%*c", new_lexeme);
+    
+   
+
+    if (search(table, new_lexeme)) {
+        printf("lexeme exists");
+    } else {
+        printf("lexeme doesn't exists");
+    }
+
+}
 

@@ -26,7 +26,7 @@ entry_ht** create_new_hash_table()
 
     entry_ht** hash_table_pointer = NULL; // declaration of pointer
 
-    hash_table_pointer = (entry_ht**)malloc( HASH_TABLE_SIZE * sizeof(entry_ht*) );  // allocate memory to hash table array of size HASH_TABLE_SIZE
+    hash_table_pointer = (entry_ht*)malloc( HASH_TABLE_SIZE * sizeof(entry_ht) );  // allocate memory to hash table array of size HASH_TABLE_SIZE
 
     // initalizing all the pointers in the array as null
 
@@ -80,6 +80,7 @@ entry_ht* create_entry ( char* lexeme, int token_name )
     new_entry -> lexeme = strdup (lexeme); // assiging the string-duplicate of lexeme to lexeme of new entry
 
     new_entry -> token_name = token_name;
+
     new_entry -> next = NULL;
 
     return new_entry;
@@ -118,11 +119,12 @@ entry_ht* search (entry_ht** hash_table_ptr, char* lexeme)
 
 /* function to insert a new entry into the hash_table given lexeme, token_name */
 
-entry_ht* insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
+entry_ht* insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name)
 {
-    if (search(hash_table_ptr, lexeme) != NULL)
+    entry_ht* finder = search( hash_table_ptr, lexeme );
+    if (finder != NULL)
     {
-        return search(hash_table_ptr, lexeme); // return if lexeme already exists
+        return finder; // return if lexeme already exists
     }
 
     uint32_t idx;
@@ -131,11 +133,6 @@ entry_ht* insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
 
     idx = hash_function ( lexeme ); // get the index of the lexeme based on the hash function
     new_entry = create_entry (lexeme, token_name); // creating a new entry
-
-    if (new_entry == NULL)
-    {
-        printf("insert failed.");
-    }
 
     head = hash_table_ptr[idx]; // get the head entry at this index (first link in the linked list chain)
 
@@ -148,9 +145,7 @@ entry_ht* insert ( entry_ht** hash_table_ptr, char* lexeme, int token_name )
         new_entry -> next = hash_table_ptr[idx]; 
         hash_table_ptr[idx] = new_entry; // making the new entry head
     }
-
-    return hash_table_ptr[idx];
-
+	return hash_table_ptr[idx];
 }
 
 
@@ -177,5 +172,3 @@ void display_table(entry_ht** hash_table_ptr)
     printf("------------------------------------------------\n");
    
 }
-
-

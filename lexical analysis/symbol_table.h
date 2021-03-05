@@ -170,28 +170,3 @@ void display_table(entry_ht** hash_table_ptr)
    
 }
 
-
-int main(int argc, char *argv[])
-{
-    entry_ht** table = create_new_hash_table();
-
-    insert(table, "surya", 35);
-    insert(table, "nitin", 12);
-    insert(table, "nag", 18);
-
-    char new_lexeme[30];
-
-    printf("enter your lexeme: \n");
-
-    scanf("%[^\n]%*c", new_lexeme);
-    
-   
-
-    if (search(table, new_lexeme)) {
-        printf("lexeme exists");
-    } else {
-        printf("lexeme doesn't exists");
-    }
-
-}
-

@@ -321,7 +321,49 @@ int yyerror(char *error_msg)
     success_flag = 0;
 }
 
+// Checks for Re-declaration of variables
 
+entry_ht* checkMultiDeclarations(char varName[40]){
+	if(is_declared)
+	{
+		if(search(symbol_table, varName) != NULL){		
+			printf("Line no: %d \n Error message: %s %s \n ", yylineno, "Variable Already Declared", varName);
+			success_flag = 0;
+		}
+
+	
+	}
+	else {
+		if(search(symbol_table, varName) == NULL){		
+			printf("Line no: %d \n Error message: %s %s \n ", yylineno, "Variable Not Declared", varName);
+			success_flag = 0;
+		}
+	}
+	entry_ht* entry= insert(symbol_table, varName, INT_MAX);
+	return entry;
+
+}
+
+// Typechecking for assignment and arithmetic expressions
+
+int typecheck (int l, int r, int is_assignmentop){
+
+	if(l!=r){
+
+		yyerror("Type Mismatch");
+		success_flag = 0;
+		return -1;
+	}
+	else{
+		if(l == 4 && !is_assignmentop){
+			yyerror("bool8 doesn't support arithmetic operations");
+			success_flag = 0;
+		}
+	}
+	
+	return l;
+	
+}
 
 
 

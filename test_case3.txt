@@ -1,0 +1,12 @@
+int32 main(){
+	bool8 isInt = false;
+	bool8 isFloat = false;
+	if(isInt + isFloat){
+		isInt = true;
+	}	
+
+
+
+
+
+}

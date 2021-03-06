@@ -1,0 +1,16 @@
+int32 main(){
+	int32 i = 3;
+	while(i > 0){
+		if(i == 3){
+		}
+		elif(i == 2){
+		}
+		else{
+		}
+		i = i-1;
+	}
+
+
+
+
+}

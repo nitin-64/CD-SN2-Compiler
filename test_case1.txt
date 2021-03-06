@@ -1,0 +1,11 @@
+int32 main(){
+	int32 a,b,c;
+	int32 c = 2;
+	int32 a;
+	while(c){
+		a += c;
+		c--;
+	}
+
+
+}

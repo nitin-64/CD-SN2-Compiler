@@ -1,0 +1,21 @@
+extern char8 printC(char8 val);
+
+void printChar(){
+    char8 str[] = "Hello World";
+
+    int32 i = 0;
+    for(i=0;i<11;i=i+1){
+        printC(str[i]);
+    }
+    
+    str[0] = 'h';
+    str[6] = 'w';
+
+    for(i=0;i<11;i=i+1){
+        printC(str[i]);
+    }
+
+    return;
+}
+
+printChar();

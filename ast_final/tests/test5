@@ -1,0 +1,12 @@
+$$ Invalid code
+
+void check(){
+    int32 a = 10;
+    int32 c = a+1;
+
+    int32 a;
+    char8 c;
+    float32 a;
+}
+
+check();

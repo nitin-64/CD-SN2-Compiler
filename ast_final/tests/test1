@@ -1,0 +1,30 @@
+extern void printF(float32 val);
+extern void printI(int32 val2);
+
+void func1(){
+	float32 b = 2.3;
+	float32 c = 1.4;
+	float32 a ;
+	float32 arr[] = {2.2,3.3,4.4};
+	printF(arr[0]);
+
+	a = b+c;
+	printF(a);
+	a = b-c;
+	printF(a);
+	a = b*c;
+	printF(a);
+	a = b/c;
+	printF(a);
+
+}
+
+int32 func2(int32 b){
+	int32 c = 2 ;
+	return b + c;
+}
+
+func1();
+
+int32 g = func2(10);
+printI(g);
